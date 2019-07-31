@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>File Size and Extention Verification</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+		<style type="text/css">
+			.btn{
+			    margin: 1rem;
+			    border: 1px solid black;
+			    padding: 1rem;
+			    display: inline-block;
+			    cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="errormessage" style="display: none;"><p>!!! ERRO !!!</p></div>
+		<div class="emptyFile" style="display: none;"><p>!!! no file !!!</p></div>
+		<form id="formteste" method="post" action="#" enctype="multipart/form-data">
+			<div class="input-group">
+				<input type="file" name="photo0" id="photo0" style="display: ;" accept="image/*">
+			</div>
+
+			<div>
+				<a onclick="submitForm()" class="btn">Send</a>
+			</div>			
+		</form>
+
+		<script type="text/javascript">
+			
+			function submitForm() {
+				let oForm 	= document.getElementById('formteste');
+
+				if(!ValidateForm()){
+					return false;
+				}
+
+				oForm.submit();
+				return true;
+			}
+
+			function ValidateForm(){
+				let oForm = document.getElementById('formteste');
+				
+				isError = "";
+				if(document.getElementById("photo0").files.length==0){
+					document.getElementsByClassName('emptyFile')[0].style.display="block";
+				}else{
+					document.getElementsByClassName('emptyFile')[0].style.display="none";
+				}	
+
+				/*		------ validation files Size and extention --------		*/	
+				if(document.getElementById("photo0").files.length!=0){
+
+					var sizeFile 	= document.getElementById("photo0").files[0].size;/*size file*/
+					var fileName 	= document.getElementById("photo0").files[0].name;/*name file*/
+					var fileExtention 	= fileName.substring(fileName.lastIndexOf('.')+1,fileName.length);/*verify the extention*/
+
+					var extentionArray 	= ["png", "pdf", "jpg", "jpeg"]; /*extentions authorized*/
+
+					if( sizeFile>600000 || !extentionArray.indexOf(fileExtention) < 1){/*NOT accepted files*/
+						isError += 'alterar imagem';
+					}
+				}
+				/*		------ validation files Size and extention --------		*/	
+				
+				
+				if (isError.length>0) {
+					document.getElementsByClassName('errormessage')[0].style.display="block";
+					
+					
+			/*		$('html, body').animate({
+				        scrollTop: $('#startForm').offset().top
+				    }, 1000);*/
+					return false;
+				}else{
+					document.getElementsByClassName('errormessage')[0].style.display="none";
+				}
+			}
+		</script>
+	</body>
+</html>
