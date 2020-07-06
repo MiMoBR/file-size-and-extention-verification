@@ -67,6 +67,21 @@
 					if( sizeFile>600000 || !extentionArray.indexOf(fileExtention) < 1){/*NOT accepted files*/
 						isError += 'alterar imagem';
 					}
+					
+					/* Dimension validator - change to jquery*/
+						var waitFile = window.URL;
+					    var file = $("#img2")[0].files[0];
+					    var img = new Image();
+					        
+				        img.onload = function () {
+				            if(this.width != this.height){
+					            console.log("Width:" + this.width + "   Height: " + this.height);	
+								isError += 'Imagem fora da Dimensão!';
+								$('#btnCallFiles2').addClass('erroFile');
+				            }
+				        };
+				        img.src = waitFile.createObjectURL(file);
+					/* Dimension validator*/
 				}
 				/*		------ validation files Size and extention --------		*/	
 				
