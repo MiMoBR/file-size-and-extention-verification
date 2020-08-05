@@ -1,0 +1,39 @@
+<input type="file" name="<%=AcessoriosServlet.PARAM_CA_IMG_E_POSTAL_TOYOTA%>" class="data" onchange="validateimgGroup(this,'<%=AcessoriosServlet.PARAM_CA_IMG_E_POSTAL_TOYOTA%>','Imagem EPostal Toyota')">
+
+
+function validateimgGroup(fileName, name, title) { /* validation of image when attach, after submit form and validation*/
+	var fileUpload = fileName;
+    var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.JPG|.JPEG)$");
+    
+    if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (fileUpload.files) != "undefined") {
+            var reader = new FileReader();
+            
+            reader.readAsDataURL(fileUpload.files[0]);
+            
+            reader.onload = function (e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function () {
+                    var height = this.height;
+                    var width = this.width;
+                    if (height == 307 || width == 592) {
+                        return true;
+                    }else{
+                        alert(''+title+' - imagem deve ser de Largura 592px e Altura 307px.');
+                        jQuery('[name="'+name+'"]').val('');
+                        return false;
+                    }
+                };
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+            jQuery('[name="'+name+'"]').val('');
+            return false;
+        }
+    } else {
+        alert('A extensão da '+title+' deve ser do tipo "JPG".');
+        jQuery('[name="'+name+'"]').val('');
+        return false;
+    }
+}
